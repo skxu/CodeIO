@@ -36,9 +36,9 @@ window.gameFunction = function() { //Wait for site to load
 
   
 
+//front end
 
- //front end
-  var myDiv = $("console");
+  var myDiv = document.getElementById("console"); //has to use document.getElementById
   if (debug) {
     console.log("divID: console, width = " + myDiv.offsetWidth);
   }
@@ -51,14 +51,14 @@ window.gameFunction = function() { //Wait for site to load
   canvas.webkitImageSmoothingEnabled = false;
 
   $(window).resize(function() {
-    var myDiv = $("console");
+    var myDiv = document.getElementById("console"); //has to use document.getElementById
   if (debug) {
     console.log("divID: console, width = " + myDiv.offsetWidth);
   }
   var divWidth = myDiv.offsetWidth;
   var divHeight = myDiv.offsetHeight - 248;
 
-  var canvas = $("#game");
+  var canvas = document.getElementById("#game"); //has to use document.getElementById
   if(canvas && canvas[0] && canvas[0].getContext('2d')) {
     ctx = canvas[0].getContext('2d');
     ctx.canvas.height = divHeight;
