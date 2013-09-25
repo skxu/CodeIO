@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" ng-app=>
+<head>
+	<title>Sam</title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script>document.write('<base href="' + document.location + '" />');</script>
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
+	<!--
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+-->
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script src="js/jquery.jscrollpane.min.js"></script>
+    <script src="js/jquery.mousewheel.js"></script>
+    <script src="js/functions.js"></script>
+	<!--
+	<script src="lib/jquery-1.9.1.js"></script>
+	<script src="lib/jquery.ui.core.js"></script>
+	<script src="lib/jquery.ui.widget.js"></script>
+	<script src="lib/jquery.ui.tabs.js"></script>
+	-->
+
+	<!--
+	<link rel="stylesheet" href="css/app.css">
+-->
+	<script src="js/bootstrap.js"></script>
+	
+
+	<!--  not using this ace
+  <script src="http://ajaxorg.github.io/ace-builds/src/ace.js"></script>
+	-->
+	<script src="js/skulpt.js" type="text/javascript"></script>
+
+
+	<script src="ace_noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src="http://code.angularjs.org/1.1.4/angular.js"></script>
+	<script src='Quintus/lib/quintus.js'></script>
+	<script src='Quintus/lib/quintus_sprites.js'></script>
+	<script src='Quintus/lib/quintus_scenes.js'></script>
+	<script src='Quintus/lib/quintus_input.js'></script>
+	<script src='Quintus/lib/quintus_anim.js'></script>
+	<script src='Quintus/lib/quintus_2d.js'></script>
+	<script src='Quintus/lib/quintus_touch.js'></script>
+	<script src='Quintus/lib/quintus_ui.js'></script>
+	<script src='Quintus/lib/quintus_audio.js'></script>
+	
+	<script src='js/tabs.js'></script>
+
+	<script>
+	$(function()
+	{
+		$('.scroll-pane').jScrollPane({mouseWheelSpeed: 50, autoReinitialise:true});
+
+	});
+
+	
+	</script>
+
+	<script src="js/game.js" type="text/javascript"></script>
+	
+	<script>
+	$(document).unbind('keydown').bind('keydown', function (event) {
+		var doPrevent = false;
+		if (event.keyCode === 8) {
+			var d = event.srcElement || event.target;
+			if ((d.tagName.toUpperCase() === 'INPUT' && (d.type.toUpperCase() === 'TEXT' || d.type.toUpperCase() === 'PASSWORD')) 
+				|| d.tagName.toUpperCase() === 'TEXTAREA') {
+				doPrevent = d.readOnly || d.disabled;
+		}
+		else {
+			doPrevent = true;
+		}
+	}
+
+	if (doPrevent) {
+		event.preventDefault();
+	}
+});
+	</script>
+
+
+</head>
+<body>
+	<div class="navbar" style="position:absolute; top:0; width:100%;">
+		<div class="navbar-inner">
+			<a class="brand" href="#">Code.io</a>
+			<ul class="nav">
+				<li class="active"><a href="#">Home</a></li>
+				<li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Lessons <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a class = "part1" href="#">Lesson 1: Variables</a></li>
+                        <li><a class = "part2" href="#">Lesson 2: Loops</a></li>
+                        <li><a href="#">Lesson 3: Woops</a></li>
+                    </ul>
+                </li>
+				<li><a href="#">FAQ</a></li>
+				<li><a href='#'>About Us</a></li>
+				
+
+			</ul>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row-fluid no-space" >
+			<div id="sidebar" class="span3" >
+				<!--Sidebar-->
+				<div id="sidebar-header" class="span12" style="position:relative">
+					<div class="navbar" style="position:absolute; top:0; width:100%; height:20px;">
+						<div class="navbar-inner sidebar-top">
+							
+						</div>
+					</div>
+
+				</div>
+				<div id="sidebar-title" class="span12 ">
+					<!--sidebar content title-->
+
+				</div>
+				<!-- sidebar main area -->
+				<div id = "text-area" class="span12 scroll-pane">
+				<p>
+					<div id = "paragraph1">
+					<strong><h3>Variables</h3></strong>
+					<div style="padding:10px;">
+					 A variable is a symbolic word that holds a value. For example, you can set the variable <code class="codex">age</code> to hold a value of <code class="codex">18</code> and set <code class="codex">year</code> to <code class="codex">2013</code> with the following statements:
+					 <p> <script src='js/gist/area_00_gist_01.js'></script></p>
+					 <p> Values aren't limited to numbers! </p>
+					 <p> You can also set values to letters, words, or phrases. For example, you can set the variable <code class="codex">hobby</code> to hold a value of <code class="codex">"video games"</code> with the following statement:</p>
+					 <p><script src='js/gist/area_00_gist_02.js'></script></p>
+					 <p> Letters, words, and phrases need to be in quotes </p>
+					 <tip> (Single and double quotes both work, but not mixed) </tip>
+					 <tip> (The variable name itself (e.g. age, hobby) cannot have spaces, but underscores are fine (e.g. <code class="codex">favorite_food</code>).
+					 </tip>
+					 </div>
+					 <p><h2 class = "objective">Objective</h2></p>
+					 <div class ="objective-box">
+					 <div class="progress progress-striped progress-warning active" style="position:relative; margin:0 auto; width:90%;">
+								<div class="bar" style="width: 10%;"></div>
+							</div>
+					 <p>Give yourself a name!</p>
+					 <ol>
+					 <li>Set the value of <code class="codex">name</code> to your desired name!</li>
+					 <li>Click the blue submit code button up at the top</li>
+					 </ol>
+					 </div>
+					 <p>Beta Testing Hotkeys (can't be editing code when using them) </p>
+					 <ul>
+					 <li>Space - run code, 'fire' </li>
+					 <li>Left/Right - move around </li>
+					 <li>Up - Jump</li>
+					 <li>Down - enter portal, flip through pet's text</li>
+					 <li>F - hold to make you fast, also destroys the pet (sorry for being the same hotkey)</li>
+					 <li>D - toggles pet to follow or stay still (you want him still when doing actions?)</li>
+					 <li>Tab - this shrinks the pet (proof of concept - shrinking, kinda broken)</li>
+					 <li>S - pick up item, throw item. Heavy items don't throw as far (concept implementation, to-do: implement weight system)</li>
+					 <li>R - pushes a red button (ALPHA: in stage 1 there's a button that opens & closes a gate) </li>
+					 <li>O - hides something</li>
+					 <li>P - shows someting</li>
+					 <li>M - toggles minimap (minimap doesn't display well for bigger maps or for small computer screens)</li>
+					 <li>J - spawns a small jelly, abuse of this will lag you, but everything is client-side, so you won't crash any server (just your own computer).</li>
+					 </ul>
+					 <p> Things you can enter into the code box </p>
+					 <ul>
+					 <li>move() - will move the pet right for 50(? maybe it's 100, I forgot) units or 1 second</li>
+					 <li>jump() - will make the pet jump</li>
+					 <li>summon(x) - summons x jellies, warning: abuse will lag you</li>
+					 <li>name - variable recognized and used to display your name tag</li>
+					 <li>print(expression) - temporary effect: gives window alert of evaluated "expression"</li>
+					 </ul>
+					</div>
+
+
+					<div id = "part2" style="padding: 10px">
+						<strong><h3>Datatypes</h3></strong>
+
+						Datatypes cover all the types of values that variables can hold. For now, we will be covering the basic datatypes:
+						<div style="padding: 10px;">
+						<p><code class="codex">Integers</code>: non-decimal numbers (e.g. -5, 0, 42 are integers) </p>
+						<p><code class="codex">Floats</code>: numbers with fractional value, written with a decimal point(e.g. 3.14, -2.6 are floats)
+						</p>
+						<p><code class="codex">Strings</code>: sequence of characters bound by quotes (e.g. 'hello', '123', 'a' are strings)
+						</p>
+						<p><code class="codex">Booleans</code>: a special datatype that can only be <code class="codex">True</code> or <code class="codex">False</code>
+						</p>
+						</div>
+						<p>Remember, <code class="codex">True</code> and <code class="codex">False</code> need to have the proper capitalization "T" and "F".
+						</p>
+
+						<p> BELOW IS FILLER/OLD TEXT </p>
+						<p> <script src='js/gist/area_00_gist_01.js'></script></p>
+						<p> Values aren't limited to numbers! </p>
+						<p> You can also set values to letters, words, or phrases. For example, you can set the variable <code class="codex">hobby</code> to hold a value of <code class="codex">"video games"</code> with the following statement:</p>
+						<p><script src='js/gist/area_00_gist_02.js'></script></p>
+						<p> Letters, words, and phrases need to be in quotes </p>
+						<tip> (Single and double quotes both work, but not mixed) </tip>
+						<tip> (The variable name itself (e.g. age, hobby) cannot have spaces, but underscores are fine (e.g. <code class="codex">favorite_food</code>). </tip>
+						<p><h2 class = "objective">Objective</h2></p>
+						<div class ="objective-box">
+							<div class="progress progress-striped progress-warning active" style="position:relative; margin:0 auto; width:90%;">
+								<div class="bar" style="width: 40%;"></div>
+							</div>
+							<p>Give yourself a name!</p>
+							<ol>
+								<li>Set the value of <code class="codex">name</code> to your desired name!</li>
+								<li>Click the blue submit code button up at the top</li>
+							</ol>
+						</div>
+						<p>filler text </p>
+					</div>
+				</div>
+
+				<!-- SIDEBAR REMOVED FOR NOW
+				<div id="sidebar-footer" class="span12">
+					
+				</div>
+				-->
+
+			</div>
+			<div id="console" class="span9">
+				<!-- top body -->
+				<div id="canvas_game">
+					<div id='loading'>
+						<div id='loading_container'>
+							Loading...
+							<div id='loading_progress'></div>
+						</div>
+					</div>
+					<canvas id="game"> </canvas>
+				</div>
+				<div id = "boxrow" class="row-fluid no-space">
+					<div id="tabs" class="tabbable">
+						<ul class="nav nav-tabs">
+						<li><div style="margin-left:5px; margin-right:10px;">
+						<button id="run" class="btn btn-primary" type="button"><div class="icon-play"></div></button>
+						</div></li>
+							<li id="tab_1"><a href="#tab1">You</a></li>
+							<li id="tab_2"><a href="#tab2">Pet<div id="pet_icon" class="icon-pencil icon-white"></div></a></li>
+							
+						</ul>
+
+						<div id="tab1">
+
+						</div>
+						<div id="tab2">
+
+						</div>
+						
+					</div>
+					
+					<div id= "editor"></div>
+
+					
+
+					<script src="js/ace.js"></script>
+
+				</div>
+			</div>
+	</div>
+</div>
+<script>
+$("#part2").hide();
+</script>
+
+</body>
+
+
+</html>
