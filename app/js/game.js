@@ -1354,7 +1354,7 @@ Q.input.keyboardControls();*/
   stage.add("viewport").follow(player);
   
 
-  stage.insert(new Q.Enemy({ x: 700, y: 0 }));
+  //stage.insert(new Q.Enemy({ x: 700, y: 0 }));  //this enemy spawn will kill player if afk
   stage.insert(new Q.Enemy({ x: 800, y: 0 }));
   stage.insert(new Q.Enemy({ x: 20, y:150 }));
   stage.insert(new Q.Enemy({ x: 80, y:150 }));
