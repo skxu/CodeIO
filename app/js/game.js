@@ -2,12 +2,12 @@
 window.gameSpace = window.gameSpace || { };
 
 var debug = false;
-var gameSpace.global_x = 0;
-var gameSpace.global_y = 0;
-var gameSpace.global_Player;
-var gameSpace.global_Pet;
-var gameSpace.global_Holding;
-var gameSpace.global_Commander;
+var global_x = 0;
+var global_y = 0;
+var global_Player;
+var global_Pet;
+var global_Holding;
+var global_Commander;
 SPRITE_PLAYER = 0x20;
 SPRITE_ENEMY = 0x40;
 
@@ -148,14 +148,14 @@ Q.Sprite.extend("Command", {
     this.hide();
   },
   step: function(dt) {
-    gameSpace.global_Commander = this;
+    global_Commander = this;
     var deploy_command = 0;
     if (!this.p.deploying && this.p.queue.length > 0) {
       deploy_command = this.p.queue.shift();
       this.p.deploying = true;
       console.log("deploying: " + deploy_command);
       if (deploy_command == "summon") {
-        Q.stage().insert(new Q.Blob({x:400, y:20, Player:gameSpace.global_Player}));
+        Q.stage().insert(new Q.Blob({x:400, y:20, Player:global_Player}));
         this.p.deploying = false;
       
       }
@@ -245,13 +245,13 @@ Q.Sprite.extend("Player",{
 
     if(this.p.health <= 0) {
       this.p.holding = false;
-      gameSpace.global_Holding = false;
+      global_Holding = false;
       this.destroy();
     }
-    gameSpace.global_x = this.p.x;
-    gameSpace.global_y = this.p.y;
-    gameSpace.global_Player = this;
-    if(gameSpace.global_Player.p.old_x == 0 && gameSpace.global_Player.p.old_y == 0) {
+    global_x = this.p.x;
+    global_y = this.p.y;
+    global_Player = this;
+    if(global_Player.p.old_x == 0 && global_Player.p.old_y == 0) {
 
     }
     Q.input.on('left',this, "setLeft");
@@ -532,7 +532,7 @@ if(this.p.deploy) {
 
 
 
-gameSpace.global_Pet = this;
+global_Pet = this;
 }
 
 });
@@ -576,7 +576,7 @@ Q.Sprite.extend("Throwable", {
     });
     this.on("bump.right",function(collision){
       if(this.p.picked) {
-        gameSpace.global_Holding = false;
+        global_Holding = false;
       }
       if (this.p.testbreak == true) {
         this.play("vase_break");
@@ -588,7 +588,7 @@ Q.Sprite.extend("Throwable", {
     });
     this.on("bump.left",function(collision){
       if(this.p.picked) {
-        gameSpace.global_Holding = false;
+        global_Holding = false;
       }
       if (this.p.testbreak == true) {
 
@@ -620,10 +620,10 @@ Q.Sprite.extend("Throwable", {
       this.p.type = Q.SPRITE_NONE;
       this.p.collisionmask = Q.SPRITE_NONE;
     }
-    if (Math.abs(this.p.x - gameSpace.global_Player.p.x) < this.p.pickup_radius && (Math.abs(this.p.y - gameSpace.global_Player.p.y) < 110)) {
-      if (Q.input_release['S'] && !this.p.picked && !gameSpace.global_Holding) {
+    if (Math.abs(this.p.x - global_Player.p.x) < this.p.pickup_radius && (Math.abs(this.p.y - global_Player.p.y) < 110)) {
+      if (Q.input_release['S'] && !this.p.picked && !global_Holding) {
         this.p.picked = true;
-        gameSpace.global_Holding = true;
+        global_Holding = true;
         this.p.gravityOn = false;
         this.p.z = 5;
         Q.input_release['S'] = false;
@@ -635,13 +635,13 @@ Q.Sprite.extend("Throwable", {
     if(this.p.thrown) {
       this.p.angle += this.p.throw_angle;
     }
-    if(this.p.picked && gameSpace.global_Holding === true) {
-      this.p.x = gameSpace.global_Player.p.x;
-      this.p.y = gameSpace.global_Player.p.y - this.p.hold_height;
+    if(this.p.picked && global_Holding === true) {
+      this.p.x = global_Player.p.x;
+      this.p.y = global_Player.p.y - this.p.hold_height;
       //console.log(this.p.x);
       //console.log("player:" + global_Player.p.x);
       if (Q.input_release['S']) { // THROWN
-        if(gameSpace.global_Player.p.direction == 'right') {
+        if(global_Player.p.direction == 'right') {
           this.p.vx = this.p.throw_speed;
         } else { //facing left
           this.p.vx = -this.p.throw_speed;
@@ -651,7 +651,7 @@ Q.Sprite.extend("Throwable", {
         this.p.thrown = true;
         this.p.vy = -100;
         this.p.picked = false;
-        gameSpace.global_Holding = false;
+        global_Holding = false;
         this.p.gravityOn = true;
         this.p.gravity = 0.8;  
         this.p.z = 3;
@@ -659,7 +659,7 @@ Q.Sprite.extend("Throwable", {
         console.log("test2");
       }
 
-    } else if (this.p.picked && gameSpace.global_Holding === false) {
+    } else if (this.p.picked && global_Holding === false) {
       console.log("test1");
       this.p.picked = false;
       this.p.gravityOn = true;
@@ -700,7 +700,7 @@ Q.Sprite.extend("Tower", {
   },
   step: function(dt) {
     this.p.angle += rotation_speed;
-    if(gameSpace.global_Player && Math.abs(this.p.x - gameSpace.global_Player.p.x) < 30) {
+    if(global_Player && Math.abs(this.p.x - global_Player.p.x) < 30) {
       console.log("within range");
       if(Q.inputs['down']) {
         console.log("down pressed");
@@ -741,7 +741,7 @@ Q.Sprite.extend("Portal", {
       });
   },
   step: function(dt) {
-    if(Math.abs(this.p.x - gameSpace.global_Player.p.x) < 30) {
+    if(Math.abs(this.p.x - global_Player.p.x) < 30) {
       if(Q.inputs['down']) {
         this.p.down = true;
       } 
@@ -877,7 +877,7 @@ Q.Sprite.extend("Button", {
     this.add('2d');
   },
   step: function(dt) {
-    if(Math.abs(this.p.x - gameSpace.global_Player.p.x) < 50 && Math.abs(this.p.y - gameSpace.global_Player.p.y) < 80) {
+    if(Math.abs(this.p.x - global_Player.p.x) < 50 && Math.abs(this.p.y - global_Player.p.y) < 80) {
       if(this.p.gate.p && Q.input_release['R']) {
         if(this.p.gate.p.open) {
           this.p.gate.p.open = false;
@@ -1208,14 +1208,14 @@ Q.Sprite.extend("Health", {
       z: 3,
       type: Q.SPRITE_NONE,
     });
-    if(gameSpace.global_Player) {
-      this.p.frame = gameSpace.global_Player.p.health - 1;
+    if(global_Player) {
+      this.p.frame = global_Player.p.health - 1;
     }
   },
   
   step: function(dt) {
-    if(gameSpace.global_Player) {
-      this.p.frame = gameSpace.global_Player.p.health - 1;
+    if(global_Player) {
+      this.p.frame = global_Player.p.health - 1;
     }
   }
 
