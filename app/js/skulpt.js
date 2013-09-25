@@ -13309,7 +13309,7 @@
     };
 
     Sk.builtin.move = function move() {
-        var pet = global_Pet;
+        var pet = gameSpace.getPet();
         //pet.p.wait = true;
         //1 = move
         //2 = jump
@@ -13321,7 +13321,7 @@
     };
 
     Sk.builtin.jump = function jump() {
-        var pet = global_Pet;
+        var pet = gameSpace.getPet();
         pet.p.queue.push(2)
         pet.p.deploy = true;
     }
@@ -13338,7 +13338,7 @@
         if (typeof(amount) === typeof(undefined)) {
             amount = 1;
         }
-        var commander = global_Commander;
+        var commander = gameSpace.getCommander();
         while (amount > 0) {
             console.log("pushed into queue");
             commander.p.queue.push("summon");
@@ -13348,7 +13348,7 @@
 
 
     var continueExec = function() {
-        var pet = global_Pet;
+        var pet = gameSpace.getPet();
         pet.p.move = true;
     };
 

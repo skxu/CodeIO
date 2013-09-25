@@ -1,13 +1,7 @@
 
 window.gameSpace = window.gameSpace || { };
 
-var debug = false;
-var global_x = 0;
-var global_y = 0;
-var global_Player;
-var global_Pet;
-var global_Holding;
-var global_Commander;
+
 SPRITE_PLAYER = 0x20;
 SPRITE_ENEMY = 0x40;
 
@@ -28,9 +22,31 @@ var addProgress = function(percent) {
 }
 
 
-window.addEventListener("load",function() { //Wait for site to load
+window.addEventListener("load",gameSpace: function() { //Wait for site to load
+  var debug = false;
+  var global_x = 0;
+  var global_y = 0;
+  var global_Player;
+  var global_Pet;
+  var global_Holding;
+  var global_Commander;
+
+  //getters for "global" variables
+
+  function getPlayer() {
+    return global_Player;
+  }
+
+  function getPet() {
+    return global_Pet;
+  }
+
+  function getCommander() {
+    return global_Commander;
+  }
 
 
+  
   var myDiv = document.getElementById("console");
   if (debug) {
     console.log("divID: console, width = " + myDiv.offsetWidth);
