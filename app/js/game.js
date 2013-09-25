@@ -22,7 +22,8 @@ var addProgress = function(percent) {
 }
 
 
-window.addEventListener("load",function gameSpace() { //Wait for site to load
+
+window.gameFunction = function() { //Wait for site to load
   var debug = false;
   var global_x = 0;
   var global_y = 0;
@@ -366,6 +367,7 @@ Q.Sprite.extend("Player",{
 
 
 });
+
 
 
 Q.Sprite.extend("Pet", {
@@ -1602,20 +1604,24 @@ Q.load(", button.png, button.json, gate.png, gate.json, level03.tmx, vase_break.
 
 return {
   //getters for "global" variables
-
   getPlayer: function() {
     return global_Player;
-  }
+  },
 
   getPet: function() {
     return global_Pet;
-  }
+  },
 
   getCommander: function() {
     return global_Commander;
   }
-  
+
 }
+};
+
+
+window.addEventListener("load", function() {
+  window.gameSpace = gameFunction();
 });
 
 
