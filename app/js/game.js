@@ -25,20 +25,18 @@ var addProgress = function(percent) {
 
 window.gameFunction = function() { //Wait for site to load
   var debug = false;
-  //global variables can be accessed
-  // via getters that this function returns at the end (yui model)
-  var global_x = 0; //not actually global, todo: name change
-  var global_y = 0; //not actually global
+  var global_x = 0;
+  var global_y = 0;
   var global_Player;
   var global_Pet;
-  var global_Holding; //not actually global
+  var global_Holding;
   var global_Commander;
 
   
 
 
- //front end
-  var myDiv = $("console");
+
+  var myDiv = document.getElementById("console");
   if (debug) {
     console.log("divID: console, width = " + myDiv.offsetWidth);
   }
@@ -51,14 +49,14 @@ window.gameFunction = function() { //Wait for site to load
   canvas.webkitImageSmoothingEnabled = false;
 
   $(window).resize(function() {
-    var myDiv = $("console");
+    var myDiv = document.getElementById("console");
   if (debug) {
     console.log("divID: console, width = " + myDiv.offsetWidth);
   }
   var divWidth = myDiv.offsetWidth;
   var divHeight = myDiv.offsetHeight - 248;
 
-  var canvas = $("#game");
+  var canvas = document.getElementById("#game");
   if(canvas && canvas[0] && canvas[0].getContext('2d')) {
     ctx = canvas[0].getContext('2d');
     ctx.canvas.height = divHeight;
@@ -403,6 +401,7 @@ Q.Sprite.extend("Pet", {
 
     this.add('2d, animation, tween');
 
+  //this.on("step",this,"step");
   
   this.on("bump.bottom",this,"landed");
 
@@ -1350,15 +1349,17 @@ Q.scene("level0",function(stage) {
   });
 Q.input.keyboardControls();*/
 
-  // Give the stage a moveable viewport (camera) that follows player
+  // Give the stage a moveable viewport and tell it
+  // to follow the player.
   stage.add("viewport").follow(player);
   
 
+  // Add in a couple of enemies
   stage.insert(new Q.Enemy({ x: 700, y: 0 }));
   stage.insert(new Q.Enemy({ x: 800, y: 0 }));
   stage.insert(new Q.Enemy({ x: 20, y:150 }));
   stage.insert(new Q.Enemy({ x: 80, y:150 }));
-
+  // Finally add in the tower goal
   Q.input.on('J',stage,function(e) {
     stage.insert(new Q.Blob({x:400, y:20, Player:player}));
   });
@@ -1398,8 +1399,7 @@ Q.scene("level1",function(stage) {
   stage.insert(new Q.Blob({x:200, y:20, Player:player}));
 
 
-  // Create the player and add to stage
-  // Todo: load player status from localStorage or database
+  // Create the player and add them to the stage
   if(stage.options.next) {
     var player = stage.insert(new Q.Player({x:stage.options.next_spawnX, y:stage.options.next_spawnY}));
   } else if (stage.options.prev) {
@@ -1408,17 +1408,20 @@ Q.scene("level1",function(stage) {
     var player = stage.insert(new Q.Player());
   }
   
+  /*Q.input.on('right', stage, function(e) {
+      player.p.angle += 5;
+  });
+Q.input.keyboardControls();*/
 
-
-
-  // Give the stage a moveable viewport that follows player
+  // Give the stage a moveable viewport and tell it
+  // to follow the player.
   stage.add("viewport").follow(player);
 
-
+  // Add in a couple of enemies
   stage.insert(new Q.Enemy({ x: 700, y: 0 }));
   stage.insert(new Q.Enemy({ x: 800, y: 0 }));
 
-
+  // Finally add in the tower goal
   
 
 },{sort: true});
@@ -1449,7 +1452,7 @@ Q.scene("level2",function(stage) {
   stage.insert(new Q.Blob({x:200, y:20, Player:player}));
 
 
-  // Create the player
+  // Create the player and add them to the stage
   if(stage.options.next) {
     var player = stage.insert(new Q.Player({x:stage.options.next_spawnX, y:stage.options.next_spawnY}));
   } else if (stage.options.prev) {
@@ -1458,11 +1461,20 @@ Q.scene("level2",function(stage) {
     var player = stage.insert(new Q.Player());
   }
   
+  /*Q.input.on('right', stage, function(e) {
+      player.p.angle += 5;
+  });
+Q.input.keyboardControls();*/
 
+  // Give the stage a moveable viewport and tell it
+  // to follow the player.
   stage.add("viewport").follow(player);
+
+  // Add in a couple of enemies
   stage.insert(new Q.Enemy({ x: 700, y: 0 }));
   stage.insert(new Q.Enemy({ x: 800, y: 0 }));
 
+  // Finally add in the tower goal
   
 
 },{sort: true});
@@ -1551,9 +1563,11 @@ Q.scene('endGame',function(stage) {
 });
 
 // ## Asset Loading and Game Launch
-
+// Q.load can be called at any time to load additional assets
+// assets that are already loaded will be skipped
+// The callback will be triggered when everything is loaded
 Q.load(", button.png, button.json, gate.png, gate.json, level03.tmx, vase_break.png, vase_break.json, health.png, health.json, throwable.png, throwable.json, blob.png, blob.json, girl.png, testgirl.png, girl.json, door.png, door.json, sprites.png, minimaptile.png, frog.png, frog.json, level00.tmx, level02.tmx, hide.tmx, cat.png, cat.json, sprites.json, animation.png, sprites2.json, level.json, level00.json, tiles.png, background-wall.png, keys.png, keys.json", function() {
-
+  // Sprites sheets can be created manually
   Q.sheet("tiles","tiles.png", { tileW: 24, tileH: 24 });
   Q.sheet("minimap","minimaptile.png", {tileW:4, tileH:4});
   Q.compileSheets("frog.png", "frog.json");
@@ -1561,6 +1575,7 @@ Q.load(", button.png, button.json, gate.png, gate.json, level03.tmx, vase_break.
   Q.compileSheets("health.png", "health.json");
   Q.sheet("testgirl", "testgirl.png", {tileW:48, tileH: 96});
   Q.compileSheets("vase_break.png", "vase_break.json");
+  // Or from a .json asset that defines sprite locations
   Q.compileSheets("sprites.png","sprites.json");
   Q.compileSheets("throwable.png", "throwable.json");
   Q.compileSheets("animation.png", "sprites2.json");
@@ -1571,12 +1586,12 @@ Q.load(", button.png, button.json, gate.png, gate.json, level03.tmx, vase_break.
   Q.compileSheets("gate.png", "gate.json");
   Q.compileSheets("button.png", "button.json");
 
-  // stageScene to run the game
+  // Finally, call stageScene to run the game
   Q.stageScene("level0",1,{next:false, prev:false});
   Q.stageScene("HUD",2, {
     level:'level00.tmx'
   });
-  //audio disabled for now due to size
+  
    //Q.load ("InMyDreams.ogg");
   //Q.audio.play('InMyDreams.ogg',{ loop: true });
 }, {
