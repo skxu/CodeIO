@@ -22,7 +22,7 @@ var addProgress = function(percent) {
 }
 
 
-window.addEventListener("load",gameSpace: function() { //Wait for site to load
+window.addEventListener("load",function gameSpace() { //Wait for site to load
   var debug = false;
   var global_x = 0;
   var global_y = 0;
@@ -46,7 +46,7 @@ window.addEventListener("load",gameSpace: function() { //Wait for site to load
   }
 
 
-  
+
   var myDiv = document.getElementById("console");
   if (debug) {
     console.log("divID: console, width = " + myDiv.offsetWidth);
