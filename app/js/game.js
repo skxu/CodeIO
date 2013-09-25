@@ -31,19 +31,7 @@ window.addEventListener("load",function gameSpace() { //Wait for site to load
   var global_Holding;
   var global_Commander;
 
-  //getters for "global" variables
-
-  function getPlayer() {
-    return global_Player;
-  }
-
-  function getPet() {
-    return global_Pet;
-  }
-
-  function getCommander() {
-    return global_Commander;
-  }
+  
 
 
 
@@ -1611,6 +1599,23 @@ Q.load(", button.png, button.json, gate.png, gate.json, level03.tmx, vase_break.
   }
 });
 
+
+return {
+  //getters for "global" variables
+
+  getPlayer: function() {
+    return global_Player;
+  }
+
+  getPet: function() {
+    return global_Pet;
+  }
+
+  getCommander: function() {
+    return global_Commander;
+  }
+  
+}
 });
 
 
