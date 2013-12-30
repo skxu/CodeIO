@@ -13322,14 +13322,20 @@
 
     Sk.builtin.jump = function jump() {
         var pet = gameSpace.getPet();
-        pet.p.queue.push(2)
+        pet.p.queue.push(2);
         pet.p.deploy = true;
-    }
+    };
+
+    Sk.builtin.toggle_follow = function toggle_follow() {
+        var pet = gameSpace.getPet();
+        pet.p.queue.push(3);
+        pet.p.deploy = true;
+    };
 
     Sk.builtin.print = function print(arg) {
         window.alert(String(arg.v));
         console.log(arg);
-    }
+    };
 
     Sk.builtin.summon = function summon(amount) {
         console.log("type: " + typeof(amount));
@@ -13344,7 +13350,7 @@
             commander.p.queue.push("summon");
             amount -= 1;
         }
-    }
+    };
 
 
     var continueExec = function() {
@@ -13377,6 +13383,7 @@
     goog.exportSymbol("Sk.importMainWithBody", Sk.importMainWithBody);
     goog.exportSymbol("Sk.builtin.__import__", Sk.builtin.__import__);
     Sk.builtins = {
+        toggle_follow: Sk.builtin.toggle_follow,
         summon: Sk.builtin.summon,
         print: Sk.builtin.print,
         jump: Sk.builtin.jump,

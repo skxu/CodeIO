@@ -83,6 +83,7 @@ var Q = window.Q = Quintus()
         .controls().touch()
 
         Q.el.focus(); //focuses the canvas after site loads
+        canvas_focus = true;
 
         /* Q.animations('player', {
           right: {frames: [0,1,2,3,4,5,6,7,8,9], rate:1/10},
@@ -249,6 +250,11 @@ Q.Sprite.extend("Player",{
       this.p.summon = false;
     }
 
+    if (Q.inputs['shift'] && Q.input_release['tab']) {
+      canvas_focus = false;
+      Q.input_release['tab'] = false;
+      editor.focus();
+    }
 
     if(this.p.health <= 0) {
       this.p.holding = false;
@@ -481,7 +487,7 @@ step: function(dt) {
   }
 
 
-  if ((this.p.move && (this.p.x - this.p.startX > 200)) || (Math.abs(this.p.move_timer - dt)) > 10) { //done moving or tried to move for 1 second
+  if ((this.p.move && (this.p.x - this.p.startX > 200)) || (Math.abs(dt - this.p.move_timer)) > 1) { //done moving or tried to move for 1 second
     this.p.not_moving = true;
     this.p.move = false;
     this.p.wait = false;
@@ -510,7 +516,7 @@ step: function(dt) {
       if (this.p.deploying) {
         //console.log("deploying");
 
-        if(deploy_command == 1) { //walk
+        if(deploy_command == 1) { // 1 = walk
           this.p.move = true;
           console.log("deployed1");
           if(this.p.move && this.p.not_moving) {
@@ -535,22 +541,25 @@ step: function(dt) {
           }
         }
 
-      if(deploy_command == 2 && this.p.landed > 0) {
-        console.log("deployed2");
-        this.p.vy = this.p.jumpSpeed;
-        this.p.landed = -dt;
-        this.p.deploying = false;
-        deploy_command = 0;
+        else if(deploy_command == 2 && this.p.landed > 0) { // 2 = jump
+          console.log("deployed2");
+          this.p.vy = this.p.jumpSpeed;
+          this.p.landed = -dt;
+          this.p.deploying = false;
+          deploy_command = 0;
+        }
+
+        else if (deploy_command == 3) { // 3 = toggle_follow 
+          console.log("deployed3");
+          this.p.follow = !this.p.follow;
+          this.p.deploying = false;
+          deploy_command = 0;
+        }
       }
     }
-  }
-
-
   this.playAnimation(this.p.vx, this.p.direction);
   global_Pet = this;
-
-}
-
+  }
 });
 
 
