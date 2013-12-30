@@ -1,13 +1,11 @@
 	var editorContainer = document.getElementById('editor');
 	var editor = ace.edit(editorContainer);
 	canvas_focus = false;
-	$(document).keyup(function (e) {
-	    if (e.which === 9 && e.shiftKey) {
-	        if (canvas_focus == false) {
-	        	if (typeof Q != "undefined") {
-	        		Q.el.focus();
-	        	}
-	        }
+	$(document).keydown(function (e) {
+	    if (e.which === 113) {
+        	if (typeof Q != "undefined") {
+	    		Q.el.focus();
+        	}
 	    }
 	});
 	editor.setTheme("ace/theme/monokai");

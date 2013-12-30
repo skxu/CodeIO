@@ -481,7 +481,10 @@ Quintus["2D"] = function(Q) {
       if (this.p.startTimer) {
         this.p.timer += dt;
       }
-
+      if (Q.inputs['F2']) {
+        Q.inputs['F2'] = false;
+        editor.focus();
+      }
       if(Q.input_release['M']) {
         if(this.p.hidden) {
             this.p.dataAsset = this.p.show;

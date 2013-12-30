@@ -250,11 +250,7 @@ Q.Sprite.extend("Player",{
       this.p.summon = false;
     }
 
-    if (Q.inputs['shift'] && Q.input_release['tab']) {
-      canvas_focus = false;
-      Q.input_release['tab'] = false;
-      editor.focus();
-    }
+
 
     if(this.p.health <= 0) {
       this.p.holding = false;
@@ -446,10 +442,13 @@ step: function(dt) {
     }
   }
 
-  if(Q.inputs['tab']) {
+
+  if(Q.inputs['tab'] && Q.inputs['T']) {
     var temp = this.p.scale;
     this.animate({scale: temp - 0.2});
   }
+
+
   if(Q.inputs['F']) {
     this.destroy();
   }

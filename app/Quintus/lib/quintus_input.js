@@ -1,7 +1,7 @@
 /*global Quintus:false */
 
 Quintus.Input = function(Q) {
-  var KEY_NAMES = { LEFT: 37, RIGHT: 39, SPACE: 32, TAB: 9, SHIFT: 16, 
+  var KEY_NAMES = { LEFT: 37, RIGHT: 39, SPACE: 32, TAB: 9, SHIFT: 16, F2: 113,
                     UP: 38, DOWN: 40, A:65, B:66, C:67, D:68, E:69, F: 70, G:71,
                     H:72, I:73, J:74, K:75, L:76, M:77, N:78, O:79, P:80, Q:81, R:82,
                     S:83, T:84, U:85, V:86, W:87, X:88, Y:89,
@@ -11,6 +11,7 @@ Quintus.Input = function(Q) {
   var DEFAULT_KEYS = { LEFT: 'left', RIGHT: 'right',
                        UP: 'up',     DOWN: 'down',
                        SPACE: 'fire', TAB: 'tab', SHIFT: 'shift',
+                       F2: 'F2',
                        A: 'A', B: 'B', C:'C', D:'D', E:'E', F:'F', G:'G', H:'H',
                        I:'I', J:'J', K:'K', L:'L', M:'M', N:'N' ,O:'O', P:'P', Q:'Q', R:'R',
                        S:'S', T:'T', U:'U', V:'V', W:'W', X:'X', Y:'Y', Z:'Z',
