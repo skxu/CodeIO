@@ -410,6 +410,18 @@ Q.Sprite.extend("Pet", {
 landed: function(col) {
   this.p.landed = 1/5;
 },
+
+playAnimation: function(vx,dir) {
+  if (vx > 0) {
+    this.play("cat_right");
+  } else if (vx < 0) {
+    this.play("cat_left");
+  } else if (vx == 0 && dir == "right") {
+    this.play("cat_right_idle");
+  } else if (vx == 0 && dir == "left") {
+    this.play("cat_left_idle");
+  }
+},
 step: function(dt) {
 
   //timers
@@ -443,14 +455,14 @@ step: function(dt) {
   this.p.landed -= dt;
 
   if(this.p.follow) {
-  var distance = this.p.Player.p.x - this.p.x;
-  if(Math.sqrt(Math.pow(Math.abs(this.p.Player.p.x - this.p.x),2) + Math.pow(Math.abs(this.p.Player.p.y - this.p.y),2)) > 10*this.p.follow_distance) {
+    var distance = this.p.Player.p.x - this.p.x;
+    if(Math.sqrt(Math.pow(Math.abs(this.p.Player.p.x - this.p.x),2) + Math.pow(Math.abs(this.p.Player.p.y - this.p.y),2)) > 10*this.p.follow_distance) {
       this.p.x = this.p.Player.p.x;
       this.p.y = this.p.Player.p.y;
       this.p.vy = 0;
     }
 
-  if (distance > this.p.follow_distance) {
+    if (distance > this.p.follow_distance) {
     /* Jumps if > 200 distance away
     if (this.p.landed > 0 && distance > 200) {
       this.p.vy = this.p.jumpSpeed;
@@ -460,86 +472,83 @@ step: function(dt) {
 
     this.p.direction = 'right';
     this.p.vx = this.p.speed;
-    this.play("cat_right");
   } else if (distance < -this.p.follow_distance) {
     this.p.direction = 'left';
     this.p.vx = -this.p.speed;
-    this.play("cat_left");
-  } else {
+  } else if (!this.p.move) {
     this.p.vx = 0;
-    if (this.p.direction == 'right') {
-      this.play("cat_right_idle");
-    } else {
-      this.play("cat_left_idle");
     }
   }
-}
 
 
-if ((this.p.move && (this.p.x - this.p.startX > 50)) || (Math.abs(dt - this.p.move_timer)) > 1) { //done moving or tried to move for 1 second
-          this.p.not_moving = true;
-          this.p.move = false;
-          this.p.wait = false;
-          this.p.vx = 0;
-          this.p.deploying = false;
-          deploy_command = 0;
-          console.log("move_timer: " + this.p.move_timer);
-          this.p.move_timer = 0;
-          this.p.move_timer_start = false;
-          
-      }
+  if ((this.p.move && (this.p.x - this.p.startX > 200)) || (Math.abs(this.p.move_timer - dt)) > 10) { //done moving or tried to move for 1 second
+    this.p.not_moving = true;
+    this.p.move = false;
+    this.p.wait = false;
+    this.p.vx = 0;
+    this.p.deploying = false;
+    deploy_command = 0;
+    console.log("dt: " + dt);
+    console.log("move_timer: " + this.p.move_timer);
+    this.p.move_timer = 0;
+    this.p.move_timer_start = false;
+
+  }
 
 
-if(this.p.deploy) {
-  var deploy_command = 0; 
+  if(this.p.deploy) {
+    var deploy_command = 0; 
     if(!this.p.deploying) {
-        if(this.p.queue.length != 0) {
-        deploy_command = this.p.queue.shift(); //CAUTION: using queue.shift() is O(n) instead of O(1)
-        this.p.deploying = true;
-        console.log("deploying: " + deploy_command);
-      } else {
-        deploy_command = 0;
-      }
-    } 
-    if (this.p.deploying) {
-      //console.log("deploying");
+      if(this.p.queue.length != 0) {
+          deploy_command = this.p.queue.shift(); //CAUTION: using queue.shift() is O(n) instead of O(1)
+          this.p.deploying = true;
+          console.log("deploying: " + deploy_command);
+        } else {
+          deploy_command = 0;
+        }
+      } 
+      if (this.p.deploying) {
+        //console.log("deploying");
 
-      if(deploy_command == 1) { //walk
-        this.p.move = true;
-        console.log("deployed1");
-        if(this.p.move && this.p.not_moving) {
-          this.p.startX = this.p.x;
-          this.p.move_timer = 0;
-          this.p.move_timer_start = true;
-          console.log("initialized move timer: " + this.p.move_timer);
-          this.p.not_moving = false;
+        if(deploy_command == 1) { //walk
+          this.p.move = true;
+          console.log("deployed1");
+          if(this.p.move && this.p.not_moving) {
+            this.p.startX = this.p.x;
+            console.log("starting x: " + this.p.startX);
+            this.p.move_timer = 0;
+            this.p.move_timer_start = true;
+            console.log("initialized move timer: " + this.p.move_timer);
+            this.p.not_moving = false;
+          }
+
+          if(this.p.move && (this.p.x - this.p.startX < 200)) {
+            this.p.vx = 100;
+          } else if (this.p.move && (this.p.x - this.p.startX > 200)) { //done moving
+            this.p.not_moving = true;
+            this.p.move = false;
+            this.p.wait = false;
+            this.p.vx = 0;
+            this.p.deploying = false;
+            console.log("done moving at position: " + this.p.x);
+            deploy_command = 0;
+          }
         }
 
-        if(this.p.move && (this.p.x - this.p.startX < 50)) {
-          this.p.vx = 100;
-        } else if (this.p.move && (this.p.x - this.p.startX > 50)) { //done moving
-          this.p.not_moving = true;
-          this.p.move = false;
-          this.p.wait = false;
-          this.p.vx = 0;
-          this.p.deploying = false;
-          deploy_command = 0;
+      if(deploy_command == 2 && this.p.landed > 0) {
+        console.log("deployed2");
+        this.p.vy = this.p.jumpSpeed;
+        this.p.landed = -dt;
+        this.p.deploying = false;
+        deploy_command = 0;
       }
     }
-
-    if(deploy_command == 2 && this.p.landed > 0) {
-      console.log("deployed2");
-      this.p.vy = this.p.jumpSpeed;
-      this.p.landed = -dt;
-      this.p.deploying = false;
-      deploy_command = 0;
-    }
   }
-}
 
 
+  this.playAnimation(this.p.vx, this.p.direction);
+  global_Pet = this;
 
-global_Pet = this;
 }
 
 });
@@ -701,7 +710,7 @@ Q.Sprite.extend("Tower", {
       scale: 1.3, 
       type:0x00, 
       level:"level1", 
-      data:"level02.tmx",
+      data:"tutorial_00.tmx",
       sidebar:"#part2"
     });
   },
@@ -1380,12 +1389,12 @@ Q.scene("level1",function(stage) {
 
   // Add in a tile layer, and make it the collision layer
   stage.collisionLayer(new Q.TileLayer({
-   dataAsset: 'level02.tmx',
+   dataAsset: 'tutorial_00.tmx',
    sheet:     'tiles' }));
 
 
-  var portal = stage.insert(new Q.Portal({x: 50, y:430}));
-  var next_portal = stage.insert(new Q.Tower({ x: 1185, y: 412, level:"level2", data:"level03.tmx" }));
+  var portal = stage.insert(new Q.Portal({x: 50, y:260}));
+  var next_portal = stage.insert(new Q.Tower({ x: 1170, y: 203, level:"level2", data:"level03.tmx" }));
 
   
   stage.options.prev_spawnX = portal.p.x;
@@ -1494,7 +1503,9 @@ function runCode() {
 
     //sets myName to the 'name' provided
     var name = module.tp$getattr('name');
-    myName = name.v;
+    if (typeof name != 'undefined') {
+      myName = name.v;
+    }
     //var rot_speed = module.tp$getattr('rotation_speed');
     //rotation_speed = rot_speed.v;
     return;
@@ -1542,7 +1553,7 @@ Q.scene('endGame',function(stage) {
   button.on("click",function() {
     Q.clearStages();
     Q.stageScene('level1');
-    Q.stageScene('HUD',2,{level:'level02.tmx'})
+    Q.stageScene('HUD',2,{level:'tutorial_00.tmx'})
   });
 
   // Expand the container to visibily fit it's contents
@@ -1552,7 +1563,7 @@ Q.scene('endGame',function(stage) {
 
 // ## Asset Loading and Game Launch
 
-Q.load(", button.png, button.json, gate.png, gate.json, level03.tmx, vase_break.png, vase_break.json, health.png, health.json, throwable.png, throwable.json, blob.png, blob.json, girl.png, testgirl.png, girl.json, door.png, door.json, sprites.png, minimaptile.png, frog.png, frog.json, level00.tmx, level02.tmx, hide.tmx, cat.png, cat.json, sprites.json, animation.png, sprites2.json, level.json, level00.json, tiles.png, background-wall.png, keys.png, keys.json", function() {
+Q.load(", tutorial_00.tmx, button.png, button.json, gate.png, gate.json, level03.tmx, vase_break.png, vase_break.json, health.png, health.json, throwable.png, throwable.json, blob.png, blob.json, girl.png, testgirl.png, girl.json, door.png, door.json, sprites.png, minimaptile.png, frog.png, frog.json, level00.tmx, level02.tmx, hide.tmx, cat.png, cat.json, sprites.json, animation.png, sprites2.json, level.json, level00.json, tiles.png, background-wall.png, keys.png, keys.json", function() {
 
   Q.sheet("tiles","tiles.png", { tileW: 24, tileH: 24 });
   Q.sheet("minimap","minimaptile.png", {tileW:4, tileH:4});
