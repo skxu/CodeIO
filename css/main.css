@@ -52,7 +52,7 @@ body {
 }
 
 #container_contact {
-    background-color:#000;
+    background-color:transparent;
     height:80vh;
     position:relative;
     padding-left:10px;
@@ -61,13 +61,29 @@ body {
     padding-bottom:10px;
     margin-left:10%;
     margin-right:10%;
-    opacity:0.7;
+    opacity:0.6;
     position:relative;
 }
 
+#container_home {
+    position:relative;
+}
+
+#contact_wrapper {
+    height:80%;
+    background:#000;
+    opacity:1;
+}
+
 footer {
-    margin-bottom:0px;
+    margin-top:25px;
+    opacity: 0.6;
+    padding-left:25px;
+    padding-right:25px;
+    bottom:0px;
     position:absolute;
+    width:99%;
+    background:#000;
 }
 
  .contentbox {
